@@ -1,0 +1,3 @@
+ Program
+   Robot Program
+     Script: exercise_4.script

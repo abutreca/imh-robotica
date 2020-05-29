@@ -1,0 +1,92 @@
+###################################
+# Function: recorrer rejilla y hacer desbarbado o pulido   #
+###################################
+
+def recorrer_rejilla(n_filas,n_col,dist,t):
+
+   # Ciclo
+   i=0
+   j=0
+   x=0
+   y=0
+
+   while i < n_filas:
+      while j < n_col:
+         pose_sig=p[-0.25+x,-0.15+y,-1,0,0,0]
+         pose_desb=p[-0.25+x,-0.15+y,1.05,0,0,0]
+
+         # Movimientos de desbarbado o pulido
+         movej(pose_sig,1.5,1)
+        # movel(pose_desb,1.5,1)
+         sleep(t)
+
+         # guardar en log la posición
+         if t==2.5:
+           textmsg("Posición de desbarbado")
+         else:
+           textmsg("Posición de pulido")
+         end
+
+         movel(pose_sig,1.5,1)
+      
+         # Siguiente iteración
+         y=y+dist
+         j=j+1
+      end
+   
+      # Reset y actualizar numero de filas
+      i=i+1
+      j=0
+      x=x+dist
+      y=0
+   end 
+end
+
+##################################################
+#                                                            MAIN                                                         #
+##################################################
+
+#info usuario
+popup("Iniciando programa",title="Titulo",warning=False,blocking=True)
+textmsg("Iniciando programa")
+
+n_col=2
+n_filas=2
+dist=0.1
+
+#while get_digital_in(0) == False: 
+  # popup("Procesos anteriores sin finalizar",title="Titulo",warning=False,blocking=True)
+   #get_digital_in(0)
+#end
+#Preparar instalacion
+set_gravity([0,0,9.8])
+set_payload_mass(3)
+
+#Movimiento inicial
+safe_pose=[0,-0.39,-1.96,0.78,1.57,0]
+movej(safe_pose,1.5,1)
+textmsg("in safe pose")
+
+
+#Movimientos de llegada a intersección y desbarbados
+while get_digital_out(0) == False:
+   popup("Herramienta de desbarbado no activa",title="Titulo",warning=False,blocking=True)
+   set_digital_out(0,True)
+end
+   set_tcp(p[0.05,0.025,-0.175,0,0,1.57])
+   t=2.5
+   recorrer_rejilla(n_filas,n_col,dist,t)
+
+# Movimientos de llegada a intersección y pulidos
+while get_digital_out(1) == False:
+   popup("Herramienta de pulido no activa",title="Titulo",warning=False,blocking=True)
+   set_digital_out(1,True)
+end
+   set_tcp(p[-0.05,0.025,0.175,0,0,1.57])
+   t=1
+ #  recorrer_rejilla(n_filas,n_col,dist,t)
+
+# Vuelta a la posición de seguridad
+movej(safe_pose,1.5,1)
+popup("Programa finalizado",title="Titulo",warning=False,blocking=True)
+textmsg("Programa finalizado")

@@ -1,0 +1,9 @@
+# Preparar instalación 
+set_gravity([0,0,9.8])
+set_tcp(p[0,0,0.150,0,0,1.57])
+set_payload_mass(1.5)
+
+# Movimiento inicial
+safe_pose=[0,-0.78,-1.57,-2.15,1.57,0]
+
+movej[safe_pose,1.5,1]

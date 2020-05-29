@@ -1,0 +1,39 @@
+    #Info usuario
+    popup("iniciando programa",title="Titulo",warning=False,blocking=True)
+    textmsg("Iniciando programa")
+  
+    #Preparar instalacion
+    set_gravity([0,0,9.8])
+    set_tcp(p[0,0,0.150,0,0,1.57])
+    set_payload_mass(1.5)
+  
+    #Movimiento inicial
+    safe_pose=[0,-0.78,-1.57,-2.15,1.57,0]
+  
+    movej(safe_pose,1.5,1)
+  
+    #Movimiento 1
+    pose_1=p[0.500,0,0.250,0,3.1416,0]
+    pose_2=p[0.500,0,0,0,3.1416,0]
+  
+    movej(pose_1,1.5,1)
+    movej(pose_2,1.5,1)
+  
+    sleep(1)
+  
+    movel(pose_1,1.5,1)
+  
+  
+    #Movimiento 2
+    pose_3=p[0.500,0.250,0.250,0,3.1416,0]
+    pose_4=p[0.500,0.250,0,0,3.1416,0]
+  
+    movej(pose_3,1.5,1)
+    movej(pose_4,1.5,1)
+  
+    sleep(1)
+  
+    movel(pose_3,1.5,1)
+  
+    #Movimiento posicion segura
+    movel(safe_pose,1.5,1)

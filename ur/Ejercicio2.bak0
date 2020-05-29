@@ -1,0 +1,36 @@
+popup("iniciando programa",title="Titulo",warning=False,blocking=True)
+textmsg("Iniciando programa")
+
+#Preparar instalacion
+set_gravity([0,0,9.8])
+set_tcp(p[0,0.25,0.175,0,0,1.57])
+set_payload_mass(2)
+
+#Movimiento inicial
+safe_pose=[0,-0.78,-1.57,-2.15,1.57,0]
+
+movel(safe_pose,1.5,1)
+
+print('Por favor, introduzca el número de filas:')
+f = input()
+print('Por favor, introduzca el número de columnas:')
+c = input()
+print('Por favor, introduzca el tamaño de la cuadrícula (lateral de cada celda):')
+d = input()
+
+f_actual=0
+c_actual=0
+
+while f_actual<f:
+	while c_actual<c:
+		movel(p[0.5+f_actual*d,-0.150+c_actual*d,0.05,3.1416,0],1.5,1)
+		movel(p[0.5+f_actual*d,-0.150+c_actual*d,0,3.1516,0],1.5,1)
+		sleep(2.5)
+		
+		movel(p[0.5+f_actual*d,-0.150+c_actual*d,0.05,3.1416,0],1.5,1)
+		movel(safe_pose,1.5,1)
+		
+		c_actual=c_actual+1
+	end	
+	f_actual=f_actual+1
+end

@@ -1,0 +1,98 @@
+def Ejercicio3():
+  step_count_b0443fe7_6e6c_4fbd_819a_286879d8616d = 0
+  thread Step_Counter_Thread_10fa683b_bd41_45fc_b87b_cba29e6b1ce0():
+    while (True):
+      step_count_b0443fe7_6e6c_4fbd_819a_286879d8616d = step_count_b0443fe7_6e6c_4fbd_819a_286879d8616d + 1
+      sync()
+    end
+  end
+  run Step_Counter_Thread_10fa683b_bd41_45fc_b87b_cba29e6b1ce0()
+  set_gravity([0.0, 0.0, 9.82])
+  set_safety_mode_transition_hardness(1)
+  set_tool_communication(False, 115200, 0, 1, 1.5, 3.5)
+  set_tool_output_mode(0)
+  set_tool_digital_output_mode(0, 1)
+  set_tool_digital_output_mode(1, 1)
+  set_tool_voltage(0)
+  set_tcp(p[0.0,0.0,0.0,0.0,0.0,0.0])
+  set_payload(0.0)
+  set_standard_analog_input_domain(0, 1)
+  set_standard_analog_input_domain(1, 1)
+  set_tool_analog_input_domain(0, 1)
+  set_tool_analog_input_domain(1, 1)
+  set_analog_outputdomain(0, 0)
+  set_analog_outputdomain(1, 0)
+  set_input_actions_to_default()
+  $ 1 "Robot Program"
+  $ 2 "Script: exercise_3.script"
+  #function: recorrer rejilla y hacer desbarbado o pulido
+  def recorrer_rejilla(n_filas,n_col,dist,t):
+  
+     # Ciclo
+     i=0
+     j=0
+     x=0
+     y=0
+  
+     while i < n_filas:
+        while j < n_col:
+           pose_sig=p[0.5+x,-0.15+y,0.05,0,3.1416,0]
+           pose_desb=p[0.5+x,-0.15+y,0,0,3.1416,0]
+  
+           # Movimientos de desbarbado o pulido
+           movej(pose_sig,1.5,1)
+           movel(pose_desb,1.5,1)
+           sleep(t)
+  
+           # guardar en log la posición
+           if t==2.5:
+             textmsg("Posición de desbarbado")
+           else:
+             textmsg("Posición de pulido")
+           end
+  
+           movel(pose_sig,1.5,1)
+  
+           # Siguiente iteración
+           y=y+dist
+           j=j+1
+        end
+  
+        # Reset y actualizar numero de filas
+        i=i+1
+        j=0
+        x=x+dist
+        y=0
+     end
+  end
+  
+  ##################################################
+  #                                                            MAIN                                                         #
+  ##################################################
+  
+  #info usuario
+  popup("Iniciando programa",title="Titulo",warning=False,blocking=True)
+  textmsg("Iniciando programa")
+  
+  n_col=2
+  n_filas=2
+  dist=0.1
+  t=2.5
+  
+  #Preparar instalacion
+  set_gravity([0,0,9.8])
+  set_tcp(p[0,0,0.150,0,0,1.57])
+  set_payload_mass(1.5)
+  
+  #Movimiento inicial
+  safe_pose=[0,-0.78,-1.57,-2.15,1.57,0]
+  movej(safe_pose,1.5,1)
+  
+  
+  #Movimientos de llegada a intersección y desbarbados
+  
+  recorrer_rejilla(n_filas,n_col,dist,t)
+  
+  # Vuelta a la posición de seguridad
+  movej(safe_pose,1.5,1)
+end

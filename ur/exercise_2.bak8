@@ -1,0 +1,73 @@
+#function: pick con offset
+def desbarbado(dist_x,dist_y):
+   textmsg("")
+   pose_prev = p[0.5+dist_x,0+dist_y,0.25,0,3.1416,0]
+   pose_pick = p[0.5+dist_x,0+dist_y,0,0,3.1416,0]
+end 
+
+#function: recorrer rejilla
+def recorrer_rejilla(n_filas,n_col,dist)
+  # Ciclo
+set_digital_out(0,True)
+
+i=0
+j=0
+x=0
+y=0
+
+while i < n_filas:
+   while j < n_col:
+      pose_sig=p[0.5+x,-0.15+y,0.05,0,3,1416,0]
+      pose_desb=p[0.5+x,-0.15+y,0,0,3.1416,0]
+
+      # Movimientos de desbarbado
+      movej(pose_sig,1.5,1)
+      movel(pose_desb,1.5,1)
+      sleep(2.5)
+      movel(pose_sig,1.5,1)
+      
+      # Siguiente iteración
+      y=y+dist
+      j=j+1
+   end
+   
+   # Reset y actualizar numero de fila
+   i=i+1
+   j=0
+   x=x+dist
+   y=0
+end 
+
+   
+
+
+end
+end
+
+#MAIN
+#info usuario
+popup("Iniciando programa",title="Titulo",warning=False,blocking=True)
+textmsg("Iniciando programa")
+
+n_col=2
+n_filas=2
+
+#Preparar instalacion
+set_gravity([0,0,9.8])
+set_tcp(p[0,0,0.150,0,0,1.57])
+set_payload_mass(1.5)
+
+#Movimiento inicial
+safe_pose=[0,-0.78,-1.57,-2.15,1.57,0]
+movej(safe_pose,1.5,1)
+
+
+#Movimiento 1
+pose_1=p[0.500,0,0.250,0,3.1416,0]
+pose_2=p[0.500,0,0,0,3.1416,0]
+
+movej(pose_1,1.5,1)
+movel(pose_2,1.5,1)
+movel(pose_1,1.5,1)
+
+pick_con_offset(0.01,0.025)

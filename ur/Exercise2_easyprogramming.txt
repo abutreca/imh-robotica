@@ -1,0 +1,37 @@
+ Program
+   Robot Program
+     Popup: Iniciando Programa
+     i≔0
+     j≔0
+     x≔0
+     y≔0
+     n_col≔3
+     n_filas≔3
+     dist≔0.1
+     Set
+     MoveJ
+       safe_pose
+       'Movimiento inicial'
+     Loop i<n_filas
+       Loop j<n_col
+         pose_sig≔p[0.5+x,-0.15+y,0.05,0,3.1416,0]
+         pose_desb≔p[0.5+x,-0.15+y,0,0,3.1416,0]
+         'Movimiento de llegada y desbarbado'
+         MoveJ
+           pose_sig
+         MoveL
+           pose_desb
+         Wait: 2.5
+         MoveL
+           pose_sig
+         'Siguiente columna'
+         y≔y+dist
+         j≔j+1
+       'Siguiente fila'
+       i≔i+1
+       j≔0
+       x≔x+dist
+       y≔0
+     MoveJ
+       safe_pose
+       'Vuelta a la posición de seguridad'

@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="ur5" >
+
+  <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro" />
+
+  <!-- ur5 -->
+  <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
+
+  <!-- arm -->
+  <xacro:ur5_robot prefix="" joint_limited="true"
+    shoulder_pan_lower_limit="${-pi}" shoulder_pan_upper_limit="${pi}"
+    shoulder_lift_lower_limit="${-pi}" shoulder_lift_upper_limit="${pi}"
+    elbow_joint_lower_limit="${-pi}" elbow_joint_upper_limit="${pi}"
+    wrist_1_lower_limit="${-pi}" wrist_1_upper_limit="${pi}"
+    wrist_2_lower_limit="${-pi}" wrist_2_upper_limit="${pi}"
+    wrist_3_lower_limit="${-pi}" wrist_3_upper_limit="${pi}"
+    transmission_hw_interface="$(arg transmission_hw_interface)"
+  />
+
+  <link name="world" />
+
+  <joint name="table_joint" type="fixed">
+    <parent link="world" />
+    <child link = "table" />
+  </joint>
+  
+  <link name="table">
+	<visual>
+      <origin xyz="0 0 0.37" rpy="0 0 0"/>
+      <geometry>
+        <box size="1 0.5 0.74"/>
+      </geometry>
+	</visual>
+	<collision>
+	  <origin xyz="0 0 0.37" rpy="0 0 0"/>
+	  <geometry>
+	    <box size="1 0.5 0.74"/>
+	  </geometry>
+	</collision>
+	<inertial>
+	  <mass value="10"/>
+	  <inertia ixx="0.4" ixy="0" ixz="0" iyy="0.4" iyz="0" izz="0.2"/>
+	</inertial>
+  </link>
+  
+  <joint name="table2_joint" type="fixed">
+    <parent link="world" />
+    <child link = "table2" />
+  </joint>
+  
+  <link name="table2">
+	<visual>
+      <origin xyz="0.85 0 0.37" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.5 1.5 0.7"/>
+      </geometry>
+	</visual>
+	<collision>
+	  <origin xyz="0.85 0 0.37" rpy="0 0 0"/>
+	  <geometry>
+	    <box size="0.5 1.5 0.7"/>
+	  </geometry>
+	</collision>
+	<inertial>
+	  <mass value="10"/>
+	  <inertia ixx="0.4" ixy="0" ixz="0" iyy="0.4" iyz="0" izz="0.2"/>
+	</inertial>
+  </link>
+  
+    <joint name="obstacle_joint" type="fixed">
+    <parent link="world" />
+    <child link = "obstacle" />
+  </joint>
+  
+  <link name="obstacle">
+	<visual>
+      <origin xyz="0.6 0.5 1.4" rpy="0 0 0"/>
+      <geometry>
+        <box size="1 0.2 0.7"/>
+      </geometry>
+	</visual>
+	<collision>
+	  <origin xyz="0.6 0.5 1.4" rpy="0 0 0"/>
+	  <geometry>
+	    <box size="1 0.2 0.7"/>
+	  </geometry>
+	</collision>
+	<inertial>
+	  <mass value="5"/>
+	  <inertia ixx="0.4" ixy="0" ixz="0" iyy="0.4" iyz="0" izz="0.2"/>
+	</inertial>
+  </link>
+
+  
+  
+  <gazebo reference="table">
+    <material>Gazebo/Orange</material>
+    <mu1>2.0</mu1>
+    <mu2>2.0</mu2>
+  </gazebo>
+  
+    <gazebo reference="table2">
+    <material>Gazebo/Red</material>
+    <mu1>2.0</mu1>
+    <mu2>2.0</mu2>
+  </gazebo>
+  
+  <joint name="table_robot_joint" type="fixed">
+    <parent link="table" />
+    <child link="base_link" />
+    <origin xyz="0.35 0.0 0.75" rpy="0.0 0.0 0.0" />
+  </joint>
+
+</robot>

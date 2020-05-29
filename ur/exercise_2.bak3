@@ -1,0 +1,57 @@
+#function: recorrer rejilla
+def recorrer_rejilla(n_filas,n_col,dist):
+
+   # Ciclo
+   i=0
+   j=0
+   x=0
+   y=0
+
+   while i < n_filas:
+      while j < n_col:
+         pose_sig=p[0.5+x,-0.15+y,0.05,0,3.1416,0]
+         pose_desb=p[0.5+x,-0.15+y,0,0,3.1416,0]
+
+         # Movimientos de desbarbado
+         movej(pose_sig,1.5,1)
+         movel(pose_desb,1.5,1)
+         sleep(2.5)
+         movel(pose_sig,1.5,1)
+      
+         # Siguiente iteración
+         y=y+dist
+         j=j+1
+      end
+   
+      # Reset y actualizar numero de fila
+      textmsg("Siguiente fila")
+      i=i+1
+      j=0
+      x=x+dist
+      y=0
+   end 
+end
+
+
+#MAIN
+#info usuario
+popup("Iniciando programa",title="Titulo",warning=False,blocking=True)
+textmsg("Iniciando programa")
+
+n_col=2
+n_filas=2
+dist=0.01
+
+#Preparar instalacion
+set_gravity([0,0,9.8])
+set_tcp(p[0,0,0.150,0,0,1.57])
+set_payload_mass(1.5)
+
+#Movimiento inicial
+safe_pose=[0,-0.78,-1.57,-2.15,1.57,0]
+movej(safe_pose,1.5,1)
+
+
+#Movimientos de llegada a intersección y desbarbados
+
+recorrer_rejilla(n_filas,n_col,dist)

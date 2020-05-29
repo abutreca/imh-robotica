@@ -1,0 +1,23 @@
+# Constantes y preparación del sistema
+pi=acos(-1.0)
+set_gravity([0,0,9.8]) 
+set_payload_mass(1.5)
+
+# Movimiento inicial
+safe_pose=[0,-0.39,-0.78,2.35,0.78,0]
+movej(safe_pose,1.5,1)
+
+# Movimientos
+pose_1=p[500,0,250,0,pi/2,0]
+pose_2=p[500,250,250,0,1.57,0]
+
+movej(pose_1,1.5,1)
+movej(pose_2,1.5,1)
+sleep(1)
+
+movej(pose_2,1.5,1)
+sleep(1)
+movej(safe_pose,1.5,1)
+
+
+
